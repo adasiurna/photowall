@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Title from './Title';
 import PhotoWall from './PhotoWall';
+import AddPhoto from './AddPhoto';
 
 
 class Main extends Component { //constructor is called only once only to initialize state of components, before DOM even mounts.
@@ -21,9 +22,11 @@ class Main extends Component { //constructor is called only once only to initial
         id: "2",
         description: "On a vacation!",
         imageLink: "https://fm.cnbc.com/applications/cnbc.com/resources/img/editorial/2017/08/24/104670887-VacationExplainsTHUMBWEB.1910x1000.jpg"
-      }]
+      }],
+      screen: 'photos' //photos, addPhotos
     }
     this.removePhoto = this.removePhoto.bind(this); //metode removePhoto mes kreipiames į 'this' iš funkcijos. kad 'this' nepointintų į funkciją, reikia teisingai subindinti, konstruktoriuje
+    this.navigate = this.navigate.bind(this);
     console.log('constructor');
   }
 
@@ -32,6 +35,12 @@ class Main extends Component { //constructor is called only once only to initial
     this.setState((state) => ({
       posts: state.posts.filter(post => post !== postRemoved)
     }))
+  }
+
+  navigate() {
+    this.setState({
+      screen: 'addPhoto'
+    })
   }
 
   //life cycle methods:
@@ -43,15 +52,27 @@ class Main extends Component { //constructor is called only once only to initial
 
   //componentDidMount() 
   componentDidUpdate(prevProps, prevState) {
-    alert("re-render");
     console.log(prevState.posts);
     console.log(this.state);
   }
 
   render() {  //when state is updated render method is called //render method should never execute asynchronous code. render should only be responsable for rendering UI based on props and states that were passed into it
     return <div>
-      <Title title={'PhotoWall'} />
-      <PhotoWall posts={this.state.posts} onRemovePhoto={this.removePhoto} />
+      {
+        this.state.screen === 'photos' && (
+          <div>
+            <Title title={'PhotoWall'} />
+            <PhotoWall posts={this.state.posts} onRemovePhoto={this.removePhoto} onNavigate={this.navigate} />
+          </div>
+        )
+      }
+      {
+        this.state.screen === 'addPhoto' && (
+          <div>
+            <AddPhoto />
+          </div>
+        )
+      }
     </div>
   } // PhotoWall has 2 props: posts and method - removePhoto
 }

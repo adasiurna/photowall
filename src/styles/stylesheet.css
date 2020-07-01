@@ -55,3 +55,13 @@ h1 {
   background: none;
   cursor: pointer;
 }
+
+.addIcon {
+  margin: 20px auto; /* auto works only on display:block elements like tables and div's */
+  display: table;
+  padding: 40px;
+  background: url("https://image.flaticon.com/icons/svg/60/60740.svg") center no-repeat;
+  background-size: contain;
+  border: none;
+  cursor: pointer;
+}

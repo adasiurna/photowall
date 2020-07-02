@@ -23,9 +23,11 @@ class Main extends Component { //constructor is called only once only to initial
         id: "2",
         description: "On a vacation!",
         imageLink: "https://fm.cnbc.com/applications/cnbc.com/resources/img/editorial/2017/08/24/104670887-VacationExplainsTHUMBWEB.1910x1000.jpg"
-      }]
+      }],
+      screen: 'photos' //photos, addPhotos
     }
     this.removePhoto = this.removePhoto.bind(this); //metode removePhoto mes kreipiames į 'this' iš funkcijos. kad 'this' nepointintų į funkciją, reikia teisingai subindinti, konstruktoriuje
+    this.navigate = this.navigate.bind(this);
     console.log('constructor');
   }
 
@@ -36,10 +38,10 @@ class Main extends Component { //constructor is called only once only to initial
     }))
   }
 
-  addPhoto(postSubmitted) {
-    this.setState(state => ({
-      posts: state.posts.concat(postSubmitted)
-    }))
+  navigate() {
+    this.setState({
+      screen: 'addPhoto'
+    })
   }
 
   //life cycle methods:
@@ -57,21 +59,23 @@ class Main extends Component { //constructor is called only once only to initial
 
   render() {  //when state is updated render method is called //render method should never execute asynchronous code. render should only be responsable for rendering UI based on props and states that were passed into it
     return <div>
-      <Route exact path='/' render={() => (
-        <div>
-          <Title title={'PhotoWall'} />
-          <PhotoWall posts={this.state.posts} onRemovePhoto={this.removePhoto} onNavigate={this.navigate} />
-        </div>
-      )} />
-
-      <Route path='/AddPhoto' render={({ history }) => (
-        <AddPhoto onAddPhoto={(addedPost) => {
-          this.addPhoto(addedPost);
-          history.push('/');
-        }} />
-      )} />
+      {
+        this.state.screen === 'photos' && (
+          <div>
+            <Title title={'PhotoWall'} />
+            <PhotoWall posts={this.state.posts} onRemovePhoto={this.removePhoto} onNavigate={this.navigate} />
+          </div>
+        )
+      }
+      {
+        this.state.screen === 'addPhoto' && (
+          <div>
+            <AddPhoto />
+          </div>
+        )
+      }
     </div>
-  } // PhotoWall has 2 props: posts and method - removePhoto //when rendering only one component, can pass it through component
+  } // PhotoWall has 2 props: posts and method - removePhoto
 }
 
 

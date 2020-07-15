@@ -8,7 +8,7 @@ function Photo(props) {  //stateless function, with arguments
     <figcaption><p>{post.description}</p></figcaption>
     <div className="button-container">
       <button onClick={() => {
-        props.onRemovePhoto(post)
+        props.removePost(1)
       }}>Remove</button>
     </div>
   </figure>
@@ -16,7 +16,6 @@ function Photo(props) {  //stateless function, with arguments
 
 Photo.propTypes = {
   post: PropTypes.object.isRequired,
-  onRemovePhoto: PropTypes.func.isRequired
 }
 
 export default Photo //export function as a component

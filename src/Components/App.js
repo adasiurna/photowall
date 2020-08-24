@@ -13,6 +13,6 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({ removePost }, dispatch)
 }
 
-const App = connect(mapStateToProps)(Main)
+const App = connect(mapStateToProps, mapDispatchToProps)(Main)
 
 export default App
